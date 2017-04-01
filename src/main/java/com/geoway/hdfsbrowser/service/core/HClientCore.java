@@ -1,6 +1,7 @@
 package com.geoway.hdfsbrowser.service.core;
 
 import com.geoway.hdfsbrowser.service.core.impl.HDFSCore;
+import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.permission.FsAction;
 
 import java.io.InputStream;
@@ -68,5 +69,10 @@ public class HClientCore implements HDFSCore{
     @Override
     public void changePermession(String path, FsAction user, FsAction group, FsAction other) throws Exception {
 
+    }
+
+    @Override
+    public FileStatus[] list(String path) throws Exception {
+        return new FileStatus[0];
     }
 }

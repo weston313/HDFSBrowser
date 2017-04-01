@@ -6,6 +6,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Table;
 
 /**
  * Created by USER on 2017/3/27.
@@ -15,6 +16,7 @@ public class UploadTabbar extends TabItem{
     private TabFolder parent;
     private int style;
     private Composite composite;
+    private Table table=null;
 
     public UploadTabbar(TabFolder tabFolder, int i) {
         super(tabFolder, i);

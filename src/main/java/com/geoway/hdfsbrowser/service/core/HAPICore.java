@@ -7,6 +7,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsAction;
 import org.apache.hadoop.fs.permission.FsPermission;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.URI;
@@ -18,14 +19,20 @@ import java.nio.file.FileAlreadyExistsException;
  */
 public class HAPICore implements HDFSCore{
 
+    private static final Logger LOGGER=Logger.getLogger(HAPICore.class);
+
     public HAPICore() throws IOException {
-        configuration=new Configuration();
-        FileSystem fileSystem= FileSystem.get(configuration);
+        this("file:///");
     }
 
     public HAPICore(String hdfs) throws IOException {
-        this();
+        this.configuration=new Configuration();
         configuration.set(FileSystem.FS_DEFAULT_NAME_KEY,hdfs);
+    }
+
+    public void setConfiguration(Configuration configuration)
+    {
+        this.configuration=configuration;
     }
 
     public void setHDFS(String hdfs)
@@ -35,6 +42,20 @@ public class HAPICore implements HDFSCore{
 
     private FileSystem fileSystem;
     private Configuration configuration;
+
+    public void initFileSystem() {
+        if(this.configuration==null)
+        {
+            LOGGER.info("the configuration is null");
+            throw  new NullPointerException("the configuration is null");
+        }
+        try {
+            this.fileSystem=FileSystem.get(configuration);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
     public boolean exist(String path) throws Exception {

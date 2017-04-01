@@ -6,6 +6,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Table;
 
 /**
  * Created by USER on 2017/3/27.
@@ -15,6 +16,8 @@ public class DownloadTabbar extends TabItem {
     private TabFolder parent;
     private int style;
     private Composite composite;
+    private Table table=null;
+
     public DownloadTabbar(TabFolder tabFolder, int i) {
         super(tabFolder, i);
         this.parent=tabFolder;
@@ -30,7 +33,6 @@ public class DownloadTabbar extends TabItem {
 
     public void createContent()
     {
-
     }
 
     @Override

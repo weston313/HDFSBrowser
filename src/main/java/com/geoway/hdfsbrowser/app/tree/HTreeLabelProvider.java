@@ -15,7 +15,8 @@ public class HTreeLabelProvider implements ILabelProvider {
 
     @Override
     public String getText(Object o) {
-        return null;
+        HTreeNode parent=(HTreeNode)o;
+        return parent.getName();
     }
 
     @Override

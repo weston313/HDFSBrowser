@@ -3,27 +3,29 @@ package com.geoway.hdfsbrowser.app;
 import com.geoway.hdfsbrowser.app.action.AboutAction;
 import com.geoway.hdfsbrowser.app.action.ConfigAction;
 import com.geoway.hdfsbrowser.app.action.NewAction;
-import com.geoway.hdfsbrowser.app.tree.HTreeContentProvider;
-import com.geoway.hdfsbrowser.app.tree.HTreeLabelProvider;
-import com.geoway.hdfsbrowser.app.tree.nodes.HDFSRootNode;
+import com.geoway.hdfsbrowser.app.tab.BrowserTabbar;
+import com.geoway.hdfsbrowser.app.tab.DownloadTabbar;
+import com.geoway.hdfsbrowser.app.tab.UploadTabbar;
+import com.geoway.hdfsbrowser.app.tree.*;
 import com.geoway.hdfsbrowser.service.core.HAPICore;
 import com.geoway.hdfsbrowser.service.core.HDFSCoreFactory;
 import com.geoway.hdfsbrowser.service.core.impl.HDFSCore;
 import com.geoway.hdfsbrowser.util.ColorUtils;
-import org.apache.hadoop.conf.Configuration;
+import javafx.scene.Parent;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.*;
+import sun.security.krb5.internal.APRep;
+import sun.security.krb5.internal.TransitedEncoding;
 
 /**
  * Created by USER on 2017/3/28.
@@ -119,11 +121,13 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         //
         this.left=new Composite(this.content,SWT.BORDER);
         createLeftArea(left);
-        createLeftContent();
+
         //
         this.right=new Composite(this.content,SWT.BORDER);
         createRightArea(right);
-        createRightContent();
+        //
+        createLeftContent(this.left);
+        createRightContent(this.right);
         //
         return parent;
     }
@@ -179,24 +183,32 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         right.setBackground(ColorUtils.GetColor(ColorUtils.WHITE));
     }
 
-    public void createLeftContent()
+    public void createLeftContent(Composite parent)
     {
-        this.hdfsTree=new TreeViewer(this.left,SWT.BORDER);
-        HDFSCore hdfsCore=null;
+        parent.setLayout(new FillLayout());
+        this.hdfsTree=new TreeViewer(parent,SWT.NONE);
         try {
-            hdfsCore= HDFSCoreFactory.GetHDFSCore(HDFSCoreFactory.TYPE.api);
-            ((HAPICore)hdfsCore).setHDFS("hdfs://192.98.19.11");
+            HDFSCore hdfsCore=HDFSCoreFactory.GetHDFSCore(HDFSCoreFactory.TYPE.api);
+            ((HAPICore)hdfsCore).setHDFS("hdfs://192.98.19.11:9000");
+            ((HAPICore)hdfsCore).initFileSystem();
+            this.hdfsTree.setContentProvider(new HTreeContentProvider(hdfsCore));
+            this.hdfsTree.setLabelProvider(new HTreeLabelProvider());
+            this.hdfsTree.setInput("HDFS浏览框");
+            this.hdfsTree.getControl().setMenu(HTreeContextMenu.getContextMenu().createContextMenu(this.hdfsTree.getControl()));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.hdfsTree.setContentProvider(new HTreeContentProvider(hdfsCore));
-        this.hdfsTree.setLabelProvider(new HTreeLabelProvider());
-        this.hdfsTree.setInput(HDFSRootNode.GetRootNode());
+        //this.hdfsTree.getControl().setMenu(HTreeContextMenu.getContextMenu().createContextMenu(this.hdfsTree.getControl()));
+        //
     }
 
-    public void createRightContent()
+    public void createRightContent(Composite parent)
     {
-
+        parent.setLayout(new FillLayout());
+        TabFolder tabFolder=new TabFolder(parent,SWT.NONE);
+        BrowserTabbar browserTabbar=new BrowserTabbar(tabFolder,SWT.NONE);
+        DownloadTabbar downloadTabbar=new DownloadTabbar(tabFolder,SWT.NONE);
+        UploadTabbar uploadTabbar=new UploadTabbar(tabFolder,SWT.NONE);
     }
 
 
