@@ -54,9 +54,7 @@ public class HAPICore implements HDFSCore{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
 
     public boolean exist(String path) throws Exception {
         if(path==null || path.isEmpty())
@@ -71,7 +69,8 @@ public class HAPICore implements HDFSCore{
         {
             return false;
         }
-        return fileSystem.isDirectory(new Path(path));
+        Path url=new Path(path);
+        return fileSystem.isDirectory(url);
     }
 
     public void mkdirDirectory(String path) throws Exception {
