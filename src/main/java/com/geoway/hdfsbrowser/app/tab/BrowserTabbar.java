@@ -1,6 +1,6 @@
 package com.geoway.hdfsbrowser.app.tab;
 
-import com.geoway.hdfsbrowser.app.tree.action.NewAction;
+import com.geoway.hdfsbrowser.app.tree.action.Mkdir;
 import com.geoway.hdfsbrowser.util.ColorUtils;
 import javafx.scene.chart.BarChart;
 import org.eclipse.jface.action.ToolBarManager;
@@ -49,7 +49,7 @@ public class BrowserTabbar extends TabItem {
     public void createContent()
     {
         ToolBarManager toolBarManager=new ToolBarManager();
-        toolBarManager.add(new NewAction());
+        toolBarManager.add(new Mkdir());
         ToolBar toolBar=toolBarManager.createControl(this.composite);
         toolBar.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,false,10,1));
         toolBar.setBackground(new Color(null,new RGB(220,220,220)));

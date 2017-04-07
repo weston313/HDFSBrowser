@@ -1,13 +1,21 @@
 package com.wozipa.test;
 
+import org.apache.htrace.commons.logging.Log;
+import org.apache.htrace.commons.logging.LogFactory;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.*;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by USER on 2017/4/1.
  */
 public class TreeTest extends ApplicationWindow {
+
+    private static final Log LOG= LogFactory.getLog(TreeTest.class);
+
     public TreeTest() {
         super(null);
     }
@@ -29,5 +37,11 @@ public class TreeTest extends ApplicationWindow {
         test.setBlockOnOpen(true);
         test.open();
         Display.getCurrent().dispose();
+    }
+
+    @Test
+    public void testLog()
+    {
+
     }
 }

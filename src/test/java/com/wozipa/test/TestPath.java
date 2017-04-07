@@ -17,7 +17,7 @@ public class TestPath {
     public void testList()
     {
         System.out.println(System.getenv("HADOOP_HOME"));
-        Path path=new Path("hdfs://192.98.19.11:9000/Test");
+        Path path=new Path("file:///");
         try {
             FileSystem fileSystem=path.getFileSystem(new Configuration());
             FileStatus[] fileStatuses=fileSystem.listStatus(path);

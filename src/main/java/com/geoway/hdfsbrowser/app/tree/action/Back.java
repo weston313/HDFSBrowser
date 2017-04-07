@@ -3,14 +3,17 @@ package com.geoway.hdfsbrowser.app.tree.action;
 import org.eclipse.jface.action.Action;
 
 /**
- * Created by USER on 2017/4/1.
+ * Created by wozipa on 2017/4/6.
  */
-public class NewAction extends Action {
+public class Back extends Action {
 
-    public NewAction()
+    public Back()
     {
-        this.setText("new");
+        super();
+        this.setText("退后");
+//        this.setImageDescriptor();
     }
+
 
     @Override
     public void run() {

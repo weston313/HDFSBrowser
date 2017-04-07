@@ -1,6 +1,6 @@
 package com.geoway.hdfsbrowser.app.tree;
 
-import com.geoway.hdfsbrowser.app.tree.action.NewAction;
+import com.geoway.hdfsbrowser.app.tree.action.Mkdir;
 import javafx.scene.control.ContextMenu;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.IMenuListener;
@@ -33,12 +33,12 @@ public class HTreeContextMenu  extends MenuManager{
         return contextMenu;
     }
 
-    private NewAction newAction;
+    private Mkdir mkdir;
 
     public HTreeContextMenu()
     {
         super();
-        newAction=new NewAction();
+        mkdir=new Mkdir();
         this.setRemoveAllWhenShown(true);
         this.addMenuListener(new HTreeMenuListen());
     }
@@ -48,7 +48,7 @@ public class HTreeContextMenu  extends MenuManager{
         @Override
         public void menuAboutToShow(IMenuManager iMenuManager) {
             System.out.print("create the context menu");
-            add(newAction);
+            add(mkdir);
         }
     }
 }

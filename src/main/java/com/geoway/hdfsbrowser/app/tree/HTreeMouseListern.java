@@ -2,6 +2,7 @@ package com.geoway.hdfsbrowser.app.tree;
 
 import org.apache.commons.collections.bag.SynchronizedSortedBag;
 import org.apache.directory.shared.kerberos.codec.adAndOr.AdAndOrGrammar;
+import org.apache.log4j.Logger;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -18,6 +19,7 @@ import java.awt.event.MouseAdapter;
  */
 public class HTreeMouseListern implements MouseListener{
 
+    private static final Logger LOGGER=Logger.getLogger(HTreeMouseListern.class);
 
     @Override
     public void mouseDoubleClick(MouseEvent mouseEvent) {
@@ -36,8 +38,11 @@ public class HTreeMouseListern implements MouseListener{
         switch (buttonNum)
         {
             case SWT.BUTTON3:
+                LOGGER.info("button3");
                 break;
-
+            case SWT.BUTTON1:
+                LOGGER.info("");
+                break;
             default:
                 break;
         }

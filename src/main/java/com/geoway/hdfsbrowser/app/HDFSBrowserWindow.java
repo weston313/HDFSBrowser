@@ -1,8 +1,6 @@
 package com.geoway.hdfsbrowser.app;
 
-import com.geoway.hdfsbrowser.app.action.AboutAction;
-import com.geoway.hdfsbrowser.app.action.ConfigAction;
-import com.geoway.hdfsbrowser.app.action.NewAction;
+import com.geoway.hdfsbrowser.app.action.*;
 import com.geoway.hdfsbrowser.app.tab.BrowserTabbar;
 import com.geoway.hdfsbrowser.app.tab.DownloadTabbar;
 import com.geoway.hdfsbrowser.app.tab.UploadTabbar;
@@ -41,7 +39,7 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         return app;
     }
 
-    //
+    //e
     private NewAction newAction;
     private ConfigAction configAction;
     private AboutAction aboutAction;
@@ -52,7 +50,9 @@ public class HDFSBrowserWindow extends ApplicationWindow {
     private Composite left;
     private Composite right;
     //
+    private HDFSCore hdfsCore;
     private TreeViewer hdfsTree;
+    private Table table;
 
 
     public HDFSBrowserWindow() {
@@ -66,6 +66,12 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         this.addMenuBar();
         this.addToolBar(SWT.FILL);
         this.addStatusLine();
+        LOGGER.info("start to initlize the windows");
+    }
+
+    public Table getTable()
+    {
+        return table;
     }
 
     @Override
@@ -80,14 +86,19 @@ public class HDFSBrowserWindow extends ApplicationWindow {
     protected MenuManager createMenuManager() {
         MenuManager menu = new MenuManager();
         //
-        MenuManager fileMenu = new MenuManager("File(&F)");
-        MenuManager confMenu = new MenuManager("Config(&C)");
-        MenuManager helpMenu = new MenuManager("Help(&H)");
+        MenuManager fileMenu = new MenuManager("File");
+        MenuManager connMenu=new MenuManager("Conn");
+        MenuManager confMenu = new MenuManager("Config");
+        MenuManager helpMenu = new MenuManager("Help");
         menu.add(fileMenu);
+        menu.add(connMenu);
         menu.add(confMenu);
         menu.add(helpMenu);
-//        //
+        //
         fileMenu.add(this.newAction);
+        //
+        connMenu.add(new Connection());
+        connMenu.add(new ConnList());
         //
         confMenu.add(configAction);
         //
@@ -105,6 +116,7 @@ public class HDFSBrowserWindow extends ApplicationWindow {
 
     @Override
     protected Control createContents(Composite parent) {
+        LOGGER.info("start to create the content of the windows");
         parent.setBackground(ColorUtils.GetColor(ColorUtils.WHITE));
         parent.setBackgroundMode(SWT.MOD2);
         //
@@ -115,7 +127,7 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         //
         this.header=new Composite(this.content,SWT.BORDER);
         createHeaderArea(header);
-//        //
+        //
         this.bottom=new Composite(this.content,SWT.BORDER);
         createBottomArea(bottom);
         //
@@ -126,8 +138,8 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         this.right=new Composite(this.content,SWT.BORDER);
         createRightArea(right);
         //
-        createLeftContent(this.left);
         createRightContent(this.right);
+        createLeftContent(this.left);
         //
         return parent;
     }
@@ -165,8 +177,6 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         left.setBackground(ColorUtils.GetColor(ColorUtils.WHITE));
     }
 
-
-
     /**
      * @author wozipa
      * @date 2017-3-28
@@ -186,29 +196,38 @@ public class HDFSBrowserWindow extends ApplicationWindow {
     public void createLeftContent(Composite parent)
     {
         parent.setLayout(new FillLayout());
-        this.hdfsTree=new TreeViewer(parent,SWT.NONE);
-        try {
-            HDFSCore hdfsCore=HDFSCoreFactory.GetHDFSCore(HDFSCoreFactory.TYPE.api);
-            ((HAPICore)hdfsCore).setHDFS("hdfs://192.98.19.11:9000");
-            ((HAPICore)hdfsCore).initFileSystem();
-            this.hdfsTree.setContentProvider(new HTreeContentProvider(hdfsCore));
-            this.hdfsTree.setLabelProvider(new HTreeLabelProvider());
-            this.hdfsTree.setInput("HDFS浏览框");
-            this.hdfsTree.getControl().setMenu(HTreeContextMenu.getContextMenu().createContextMenu(this.hdfsTree.getControl()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //this.hdfsTree.getControl().setMenu(HTreeContextMenu.getContextMenu().createContextMenu(this.hdfsTree.getControl()));
-        //
+        this.hdfsTree=new HTreeViewer(parent,SWT.NONE,this.hdfsCore);
     }
 
     public void createRightContent(Composite parent)
     {
         parent.setLayout(new FillLayout());
-        TabFolder tabFolder=new TabFolder(parent,SWT.NONE);
-        BrowserTabbar browserTabbar=new BrowserTabbar(tabFolder,SWT.NONE);
-        DownloadTabbar downloadTabbar=new DownloadTabbar(tabFolder,SWT.NONE);
-        UploadTabbar uploadTabbar=new UploadTabbar(tabFolder,SWT.NONE);
+        this.table=new Table(parent,SWT.NONE);
+        this.table.setHeaderVisible(true);
+        createTableColumns(new String[]{"文件名称","创建时间","文件类型","大小"});
+        table.addPaintListener(new PaintListener() {
+
+            @Override
+            public void paintControl(PaintEvent arg0) {
+                // TODO Auto-generated method stub
+                TableColumn[] columns = table.getColumns();
+                int clientWidth = table.getBounds().width;
+                for(int i=0;i<columns.length;i++){
+                    columns[i].setWidth((clientWidth)/columns.length);
+                }
+            }
+        });
+        this.table.pack();
+    }
+
+    public void createTableColumns(String[] tableNames){
+        for(String name:tableNames)
+        {
+            TableColumn tableColumn=new TableColumn(this.table,SWT.NONE);
+            tableColumn.setText(name);
+            tableColumn.setMoveable(true);
+            tableColumn.pack();
+        }
     }
 
     public static void main(String[] args)
@@ -217,5 +236,6 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         window.setBlockOnOpen(true);
         window.open();
         Display.getCurrent().dispose();
+        System.out.print("heheheh");
     }
 }
