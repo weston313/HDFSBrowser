@@ -64,6 +64,7 @@ public class HTreeContentProvider implements ITreeContentProvider {
     }
 
     public Object[] getElements(Object o) {
+        LOGGER.info("get the root node");
         return new HTreeNode[]{HTreeRootNode.GetRootNode()};
     }
 

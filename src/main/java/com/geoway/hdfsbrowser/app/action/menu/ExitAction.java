@@ -1,16 +1,17 @@
-package com.geoway.hdfsbrowser.app.tree.action;
+package com.geoway.hdfsbrowser.app.action.menu;
 
 import org.eclipse.jface.action.Action;
 
 /**
- * Created by wozipa on 2017/4/6.
+ * Created by USER on 2017/4/7.
  */
-public class Paste extends Action {
+public class ExitAction extends Action {
 
-    public Paste()
+    public ExitAction()
     {
         super();
-        this.setText("粘贴");
+        this.setText("退出");
+        this.setToolTipText("退出");
         this.setEnabled(true);
 //        this.setImageDescriptor();
     }

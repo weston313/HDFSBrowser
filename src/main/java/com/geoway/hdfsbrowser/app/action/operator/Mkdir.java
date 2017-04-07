@@ -1,4 +1,4 @@
-package com.geoway.hdfsbrowser.app.tree.action;
+package com.geoway.hdfsbrowser.app.action.operator;
 
 import com.geoway.hdfsbrowser.service.core.HDFSCoreFactory;
 import com.geoway.hdfsbrowser.service.core.impl.HDFSCore;
@@ -13,9 +13,10 @@ public class Mkdir extends Action {
     public Mkdir()
     {
         super();
-        this.setText("MkDir");
+        this.setText("创建文件夹");
         this.setAccelerator(SWT.CTRL+SWT.SHIFT+'M');
         this.setEnabled(true);
+//        this.setImageDescriptor();
     }
 
     @Override

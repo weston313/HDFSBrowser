@@ -1,4 +1,4 @@
-package com.geoway.hdfsbrowser.app.tree.action;
+package com.geoway.hdfsbrowser.app.action.operator;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
@@ -6,15 +6,14 @@ import org.eclipse.swt.SWT;
 /**
  * Created by wozipa on 2017/4/6.
  */
-public class Upload extends Action {
+public class Move extends Action {
 
-    public Upload()
+    public Move()
     {
         super();
-        this.setText("上传");
+        this.setText("移动");
+        this.setAccelerator(SWT.CTRL+SWT.SHIFT+'M');
         this.setEnabled(true);
-        this.setAccelerator(SWT.CTRL+'U');
-//        this.setImageDescriptor();
     }
 
     @Override

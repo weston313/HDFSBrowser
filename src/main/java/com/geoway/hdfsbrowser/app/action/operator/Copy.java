@@ -1,4 +1,4 @@
-package com.geoway.hdfsbrowser.app.tree.action;
+package com.geoway.hdfsbrowser.app.action.operator;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
@@ -6,13 +6,12 @@ import org.eclipse.swt.SWT;
 /**
  * Created by wozipa on 2017/4/6.
  */
-public class Rename extends Action {
+public class Copy extends Action {
 
-    public Rename()
-    {
-        this.setText("重命名");
+    public Copy(){
         this.setEnabled(true);
-        this.setAccelerator(SWT.CTRL+SWT.SHIFT+'R');
+        this.setText("复制");
+        this.setAccelerator(SWT.CTRL+'C');
 //        this.setImageDescriptor();
     }
 

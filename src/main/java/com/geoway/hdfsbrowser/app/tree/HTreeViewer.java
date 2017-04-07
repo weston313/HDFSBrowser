@@ -4,6 +4,7 @@ import com.geoway.hdfsbrowser.app.HDFSBrowserWindow;
 import com.geoway.hdfsbrowser.service.core.HAPICore;
 import com.geoway.hdfsbrowser.service.core.HDFSCoreFactory;
 import com.geoway.hdfsbrowser.service.core.impl.HDFSCore;
+import com.geoway.hdfsbrowser.util.ColorUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.events.*;
@@ -28,17 +29,9 @@ public class HTreeViewer extends TreeViewer {
         //
         this.table=HDFSBrowserWindow.GetApp().getTable();
         //
-        try {
-            this.hdfsCore=hdfsCore;
-            createContent();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setHdfsCore()
-    {
-
+        this.hdfsCore=hdfsCore;
+        this.getControl().setBounds(parent.getBounds());
+        createContent();
     }
 
     public void createContent()

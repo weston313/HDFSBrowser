@@ -41,4 +41,10 @@ public class TestPath {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void testBRDATA()
+    {
+        System.out.print(System.getenv("HDFSBROWSER_DATA"));
+    }
 }

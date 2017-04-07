@@ -1,4 +1,4 @@
-package com.geoway.hdfsbrowser.app.action;
+package com.geoway.hdfsbrowser.app.action.menu;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;

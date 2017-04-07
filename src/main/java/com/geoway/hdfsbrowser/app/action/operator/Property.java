@@ -1,4 +1,4 @@
-package com.geoway.hdfsbrowser.app.action;
+package com.geoway.hdfsbrowser.app.action.operator;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
@@ -6,14 +6,14 @@ import org.eclipse.swt.SWT;
 /**
  * Created by wozipa on 2017/4/6.
  */
-public class Connection extends Action {
+public class Property extends Action {
 
-    public Connection()
+    public Property()
     {
         super();
-        this.setText("创建连接");
+        this.setText("属性");
         this.setEnabled(true);
-        this.setAccelerator(SWT.CTRL+SWT.SHIFT+'C');
+        this.setAccelerator(SWT.CTRL+'P');
 //        this.setImageDescriptor();
     }
 

@@ -62,4 +62,9 @@ public class AppConfiguration {
     {
         return config.get(HDFS_USER);
     }
+
+    public void clear()
+    {
+        config.clear();
+    }
 }

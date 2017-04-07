@@ -1,4 +1,4 @@
-package com.geoway.hdfsbrowser.app.tree.action;
+package com.geoway.hdfsbrowser.app.action.operator;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
@@ -6,13 +6,13 @@ import org.eclipse.swt.SWT;
 /**
  * Created by wozipa on 2017/4/6.
  */
-public class Home extends Action {
+public class Cut extends Action {
 
-    public Home()
+    public Cut()
     {
-        super();
-        this.setText("Home");
         this.setEnabled(true);
+        this.setText("剪切");
+        this.setAccelerator(SWT.CTRL+'X');
 //        this.setImageDescriptor();
     }
 

@@ -1,17 +1,17 @@
-package com.geoway.hdfsbrowser.app.tree.action;
+package com.geoway.hdfsbrowser.app.action.operator;
 
 import org.eclipse.jface.action.Action;
 
 /**
  * Created by wozipa on 2017/4/6.
  */
-public class Prev extends Action {
+public class Paste extends Action {
 
-    public Prev()
+    public Paste()
     {
         super();
-        this.setText("前进");
-        this.setToolTipText("前进");
+        this.setText("粘贴");
+        this.setEnabled(true);
 //        this.setImageDescriptor();
     }
 

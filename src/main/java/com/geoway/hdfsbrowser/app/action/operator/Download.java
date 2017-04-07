@@ -1,4 +1,4 @@
-package com.geoway.hdfsbrowser.app.tree.action;
+package com.geoway.hdfsbrowser.app.action.operator;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
@@ -6,14 +6,15 @@ import org.eclipse.swt.SWT;
 /**
  * Created by wozipa on 2017/4/6.
  */
-public class Delete extends Action {
+public class Download extends Action {
 
-    public Delete()
+    public Download()
     {
         super();
-        this.setText("删除");
+        this.setText("下载");
         this.setEnabled(true);
-        this.setAccelerator(SWT.CTRL+SWT.SHIFT+'D');
+        this.setAccelerator(SWT.CTRL+'D');
+//        this.setImageDescriptor();
     }
 
     @Override

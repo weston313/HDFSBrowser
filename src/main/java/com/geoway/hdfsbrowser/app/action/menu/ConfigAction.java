@@ -1,4 +1,4 @@
-package com.geoway.hdfsbrowser.app.action;
+package com.geoway.hdfsbrowser.app.action.menu;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
@@ -6,13 +6,13 @@ import org.eclipse.swt.SWT;
 /**
  * Created by USER on 2017/3/27.
  */
-public class NewAction extends Action {
+public class ConfigAction extends Action {
 
-    public NewAction()
+    public ConfigAction()
     {
         super();
-        this.setText("新建");
-        this.setAccelerator(SWT.SHIFT+SWT.ALT+'N');
+        this.setText("Config");
+        this.setAccelerator(SWT.SHIFT+SWT.ALT+'c');
         this.setEnabled(true);
     }
 

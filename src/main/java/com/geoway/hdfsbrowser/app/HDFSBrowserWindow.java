@@ -1,17 +1,17 @@
 package com.geoway.hdfsbrowser.app;
 
-import com.geoway.hdfsbrowser.app.action.*;
-import com.geoway.hdfsbrowser.app.tab.BrowserTabbar;
-import com.geoway.hdfsbrowser.app.tab.DownloadTabbar;
-import com.geoway.hdfsbrowser.app.tab.UploadTabbar;
+import com.geoway.hdfsbrowser.app.action.menu.*;
+import com.geoway.hdfsbrowser.app.action.operator.*;
+import com.geoway.hdfsbrowser.app.config.AppConfiguration;
 import com.geoway.hdfsbrowser.app.tree.*;
+import com.geoway.hdfsbrowser.service.container.ConnectionContainer;
 import com.geoway.hdfsbrowser.service.core.HAPICore;
 import com.geoway.hdfsbrowser.service.core.HDFSCoreFactory;
 import com.geoway.hdfsbrowser.service.core.impl.HDFSCore;
 import com.geoway.hdfsbrowser.util.ColorUtils;
-import javafx.scene.Parent;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.window.ApplicationWindow;
@@ -22,8 +22,6 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.*;
-import sun.security.krb5.internal.APRep;
-import sun.security.krb5.internal.TransitedEncoding;
 
 /**
  * Created by USER on 2017/3/28.
@@ -50,6 +48,7 @@ public class HDFSBrowserWindow extends ApplicationWindow {
     private Composite left;
     private Composite right;
     //
+    private boolean connected=false;
     private HDFSCore hdfsCore;
     private TreeViewer hdfsTree;
     private Table table;
@@ -86,19 +85,22 @@ public class HDFSBrowserWindow extends ApplicationWindow {
     protected MenuManager createMenuManager() {
         MenuManager menu = new MenuManager();
         //
-        MenuManager fileMenu = new MenuManager("File");
-        MenuManager connMenu=new MenuManager("Conn");
-        MenuManager confMenu = new MenuManager("Config");
-        MenuManager helpMenu = new MenuManager("Help");
+        MenuManager fileMenu = new MenuManager("文件");
+        MenuManager connMenu=new MenuManager("连接");
+        MenuManager confMenu = new MenuManager("配置");
+        MenuManager helpMenu = new MenuManager("帮助");
         menu.add(fileMenu);
         menu.add(connMenu);
         menu.add(confMenu);
         menu.add(helpMenu);
         //
         fileMenu.add(this.newAction);
+        fileMenu.add(new Separator());
+        fileMenu.add(new ExitAction());
         //
-        connMenu.add(new Connection());
-        connMenu.add(new ConnList());
+        connMenu.add(new ConnectionAction());
+        connMenu.add(new ConnListAction());
+        connMenu.add(new DisconnectionAction());
         //
         confMenu.add(configAction);
         //
@@ -110,7 +112,23 @@ public class HDFSBrowserWindow extends ApplicationWindow {
     @Override
     protected ToolBarManager createToolBarManager(int style) {
        ToolBarManager toolBarManager=new ToolBarManager(SWT.NONE);
-       toolBarManager.add(newAction);
+       toolBarManager.add(new Back());
+       toolBarManager.add(new Prev());
+       toolBarManager.add(new Home());
+       toolBarManager.add(new Fresh());
+       toolBarManager.add(new HBSeparator());
+       toolBarManager.add(new Mkdir());
+       toolBarManager.add(new Delete());
+       toolBarManager.add(new Rename());
+       toolBarManager.add(new Copy());
+       toolBarManager.add(new Cut());
+       toolBarManager.add(new Paste());
+       toolBarManager.add(new Property());
+       toolBarManager.add(new HBSeparator());
+       toolBarManager.add(new Download());
+       toolBarManager.add(new Upload());
+       toolBarManager.add(new HBSeparator());
+       toolBarManager.add(new Search());
        return toolBarManager;
     }
 
@@ -138,10 +156,43 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         this.right=new Composite(this.content,SWT.BORDER);
         createRightArea(right);
         //
-        createRightContent(this.right);
-        createLeftContent(this.left);
-        //
+        createRightContent();
+//        createLeftContent(this.left);
         return parent;
+    }
+
+    public void connection()
+    {
+        connected=true;
+        AppConfiguration configuration=AppConfiguration.GetAppConfiguration();
+        String hdfsUrl="hdfs://"+configuration.getHdfsHost()+":"+configuration.getHdfsPort()+"/";
+        LOGGER.info("the hdfs url is "+hdfsUrl);
+        try {
+            hdfsCore=HDFSCoreFactory.GetHDFSCore(HDFSCoreFactory.TYPE.api);
+            ((HAPICore)hdfsCore).setHDFS(hdfsUrl);
+            ((HAPICore)hdfsCore).initFileSystem();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        createRightContent();
+        createLeftContent();
+    }
+
+    public boolean isConnected()
+    {
+        return connected;
+    }
+
+    /**
+     * close the connection with hdfs url
+     */
+    public void disconnection()
+    {
+        hdfsCore=null;
+        this.hdfsTree.getControl().dispose();
+        this.hdfsTree=null;
+        System.gc();
+        this.connected=false;
     }
 
     public void createHeaderArea(Composite header)
@@ -175,6 +226,7 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         leftFormData.bottom=new FormAttachment(this.bottom);
         left.setLayoutData(leftFormData);
         left.setBackground(ColorUtils.GetColor(ColorUtils.WHITE));
+        left.setLayout(new FillLayout());
     }
 
     /**
@@ -191,18 +243,18 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         formData.right=new FormAttachment(100);
         right.setLayoutData(formData);
         right.setBackground(ColorUtils.GetColor(ColorUtils.WHITE));
+        right.setLayout(new FillLayout());
     }
 
-    public void createLeftContent(Composite parent)
+    public void createLeftContent()
     {
-        parent.setLayout(new FillLayout());
-        this.hdfsTree=new HTreeViewer(parent,SWT.NONE,this.hdfsCore);
+        LOGGER.info(this.left.getSize().toString());
+        this.hdfsTree=new HTreeViewer(this.left,SWT.NONE,this.hdfsCore);
     }
 
-    public void createRightContent(Composite parent)
+    public void createRightContent()
     {
-        parent.setLayout(new FillLayout());
-        this.table=new Table(parent,SWT.NONE);
+        this.table=new Table(this.right,SWT.NULL);
         this.table.setHeaderVisible(true);
         createTableColumns(new String[]{"文件名称","创建时间","文件类型","大小"});
         table.addPaintListener(new PaintListener() {
@@ -230,12 +282,18 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         }
     }
 
+    @Override
+    public boolean close() {
+        LOGGER.info("close the hdfs browser");
+        ConnectionContainer.GetConnectionContainer().close();
+        return super.close();
+    }
+
     public static void main(String[] args)
     {
         HDFSBrowserWindow window=new HDFSBrowserWindow();
         window.setBlockOnOpen(true);
         window.open();
         Display.getCurrent().dispose();
-        System.out.print("heheheh");
     }
 }

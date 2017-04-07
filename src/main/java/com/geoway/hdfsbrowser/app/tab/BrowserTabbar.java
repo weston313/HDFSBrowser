@@ -1,10 +1,8 @@
 package com.geoway.hdfsbrowser.app.tab;
 
-import com.geoway.hdfsbrowser.app.tree.action.Mkdir;
+import com.geoway.hdfsbrowser.app.action.operator.Mkdir;
 import com.geoway.hdfsbrowser.util.ColorUtils;
-import javafx.scene.chart.BarChart;
 import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -12,10 +10,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.*;
-import sun.font.TrueTypeFont;
 
 /**
  * Created by USER on 2017/3/27.

@@ -1,13 +1,10 @@
 package com.geoway.hdfsbrowser.app.tree;
 
-import com.geoway.hdfsbrowser.app.tree.action.Mkdir;
-import javafx.scene.control.ContextMenu;
+import com.geoway.hdfsbrowser.app.action.operator.Mkdir;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Menu;
 
 /**
  * Created by USER on 2017/4/1.
