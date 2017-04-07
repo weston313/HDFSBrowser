@@ -211,7 +211,6 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         UploadTabbar uploadTabbar=new UploadTabbar(tabFolder,SWT.NONE);
     }
 
-
     public static void main(String[] args)
     {
         HDFSBrowserWindow window=new HDFSBrowserWindow();
