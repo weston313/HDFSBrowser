@@ -75,4 +75,9 @@ public class HClientCore implements HDFSCore{
     public FileStatus[] list(String path) throws Exception {
         return new FileStatus[0];
     }
+
+    @Override
+    public FileStatus[] listDirectories(String path) throws Exception {
+        return new FileStatus[0];
+    }
 }

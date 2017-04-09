@@ -29,7 +29,7 @@ public class HTreeContentProvider implements ITreeContentProvider {
         HTreeNode parent=(HTreeNode)o;
         String path=parent.getPath();
         try {
-            FileStatus[] statuses=hdfsCore.list(path);
+            FileStatus[] statuses=hdfsCore.listDirectories(path);
             List list=HTreeNode.FromFileStatues(parent,statuses);
             parent.setChildren(list);
             HTreeNode[] nodes= (HTreeNode[]) list.toArray(new HTreeNode[list.size()]);

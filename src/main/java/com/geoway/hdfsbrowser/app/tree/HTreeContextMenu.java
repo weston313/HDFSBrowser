@@ -5,6 +5,8 @@ import org.apache.log4j.Logger;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Menu;
 
 /**
  * Created by USER on 2017/4/1.
@@ -15,7 +17,7 @@ public class HTreeContextMenu  extends MenuManager{
 
     private static volatile HTreeContextMenu contextMenu=null;
 
-    public static HTreeContextMenu getContextMenu()
+    public static HTreeContextMenu getContextMenu(HTreeViewer treeViewer)
     {
         if(contextMenu==null)
         {
@@ -23,18 +25,20 @@ public class HTreeContextMenu  extends MenuManager{
             {
                 if(contextMenu==null)
                 {
-                    contextMenu=new HTreeContextMenu();
+                    contextMenu=new HTreeContextMenu(treeViewer);
                 }
             }
         }
         return contextMenu;
     }
 
+    private HTreeViewer treeViewer=null;
     private Mkdir mkdir;
 
-    public HTreeContextMenu()
+    public HTreeContextMenu(HTreeViewer treeViewer)
     {
         super();
+        this.treeViewer=treeViewer;
         mkdir=new Mkdir();
         this.setRemoveAllWhenShown(true);
         this.addMenuListener(new HTreeMenuListen());

@@ -47,7 +47,7 @@ public class ConnectionWindow extends ApplicationWindow {
         host=createInput(parent,"HDFS地址");
         port=createInput(parent,"HDFS端口");
         user=createInput(parent,"HDFS用户");
-        host.setText("192.98.19.11");
+        host.setText("192.168.1.112");
         port.setText("9000");
         user.setText("hadoop");
         createButtons(parent);

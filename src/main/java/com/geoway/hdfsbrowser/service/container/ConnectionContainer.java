@@ -12,7 +12,9 @@ import org.dom4j.io.XMLWriter;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by USER on 2017/4/7.
@@ -44,11 +46,11 @@ public class ConnectionContainer {
         return connectionContainer;
     }
 
-    private List<Connection> container=null;
+    private Set<Connection> container=null;
 
     private ConnectionContainer()
     {
-        container=new ArrayList<>();
+        container=new HashSet<>();
         initlize();
     }
 
@@ -136,7 +138,7 @@ public class ConnectionContainer {
 
     }
 
-    public List<Connection> getContainer()
+    public Set<Connection> getContainer()
     {
         return container;
     }
@@ -149,6 +151,9 @@ public class ConnectionContainer {
     }
 
     public class  Connection{
+
+        private static final int HASH_CODE=1024;
+
         private String host;
         private String port;
         private String user;
@@ -183,6 +188,35 @@ public class ConnectionContainer {
 
         public void setUser(String user) {
             this.user = user;
+        }
+
+        public String toString()
+        {
+            return "["+host+","+port+","+user +"]";
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            LOGGER.info("run the euqal function");
+            Connection other= (Connection) obj;
+            if(!this.host.equals(other.getHost()))
+            {
+                return false;
+            }
+            if(!this.port.equals(other.getPort()))
+            {
+                return false;
+            }
+            if(!this.user.equals(other.getUser()))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            return HASH_CODE;
         }
     }
 }

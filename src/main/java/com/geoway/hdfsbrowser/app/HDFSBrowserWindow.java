@@ -3,6 +3,8 @@ package com.geoway.hdfsbrowser.app;
 import com.geoway.hdfsbrowser.app.action.menu.*;
 import com.geoway.hdfsbrowser.app.action.operator.*;
 import com.geoway.hdfsbrowser.app.config.AppConfiguration;
+import com.geoway.hdfsbrowser.app.table.HTable;
+import com.geoway.hdfsbrowser.app.table.HTableViewer;
 import com.geoway.hdfsbrowser.app.tree.*;
 import com.geoway.hdfsbrowser.service.container.ConnectionContainer;
 import com.geoway.hdfsbrowser.service.core.HAPICore;
@@ -51,7 +53,7 @@ public class HDFSBrowserWindow extends ApplicationWindow {
     private boolean connected=false;
     private HDFSCore hdfsCore;
     private TreeViewer hdfsTree;
-    private Table table;
+    private HTableViewer table;
 
 
     public HDFSBrowserWindow() {
@@ -68,7 +70,7 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         LOGGER.info("start to initlize the windows");
     }
 
-    public Table getTable()
+    public HTableViewer getTable()
     {
         return table;
     }
@@ -176,6 +178,8 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         }
 //        createRightContent();
         createLeftContent();
+        //
+        table.setHdfsCore(hdfsCore);
     }
 
     public boolean isConnected()
@@ -254,32 +258,7 @@ public class HDFSBrowserWindow extends ApplicationWindow {
 
     public void createRightContent()
     {
-        this.table=new Table(this.right,SWT.NULL);
-        this.table.setHeaderVisible(true);
-        createTableColumns(new String[]{"文件名称","创建时间","文件类型","大小"});
-        table.addPaintListener(new PaintListener() {
-
-            @Override
-            public void paintControl(PaintEvent arg0) {
-                // TODO Auto-generated method stub
-                TableColumn[] columns = table.getColumns();
-                int clientWidth = table.getBounds().width;
-                for(int i=0;i<columns.length;i++){
-                    columns[i].setWidth((clientWidth)/columns.length);
-                }
-            }
-        });
-        this.table.pack();
-    }
-
-    public void createTableColumns(String[] tableNames){
-        for(String name:tableNames)
-        {
-            TableColumn tableColumn=new TableColumn(this.table,SWT.NONE);
-            tableColumn.setText(name);
-            tableColumn.setMoveable(true);
-            tableColumn.pack();
-        }
+       table=new HTableViewer(this.right,SWT.FULL_SELECTION);
     }
 
     @Override
@@ -287,6 +266,11 @@ public class HDFSBrowserWindow extends ApplicationWindow {
         LOGGER.info("close the hdfs browser");
         ConnectionContainer.GetConnectionContainer().close();
         return super.close();
+    }
+
+    public HDFSCore getHdfsCore()
+    {
+        return hdfsCore;
     }
 
     public static void main(String[] args)

@@ -88,4 +88,6 @@ public interface HDFSCore {
     public void changePermession(String path, FsAction user, FsAction group, FsAction other) throws  Exception;
 
     public FileStatus[] list(String path) throws Exception;
+
+    public FileStatus[] listDirectories(String path)throws Exception;
 }

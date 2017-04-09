@@ -10,13 +10,12 @@ import com.geoway.hdfsbrowser.util.ColorUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
@@ -38,6 +37,7 @@ public class ConnectionListWindow extends ApplicationWindow {
     private Shell parent;
     private Composite composite=null;
     private Table table=null;
+    private TableViewer tableViewer=null;
 
     public ConnectionListWindow(Shell parentShell) {
         super(parentShell);
@@ -69,7 +69,6 @@ public class ConnectionListWindow extends ApplicationWindow {
         this.composite=new Composite(parent,SWT.NONE);
         this.composite.setBackground(ColorUtils.GetColor(ColorUtils.WHITE));
         this.composite.setLayout(new GridLayout(5,true));
-
         //
         createTable(this.composite);
         createButtons(this.composite);
@@ -78,15 +77,15 @@ public class ConnectionListWindow extends ApplicationWindow {
 
     public void createTable(final Composite parent)
     {
-        this.table=new Table(parent,SWT.NONE);
+        this.table=new Table(parent,SWT.FULL_SELECTION);
         this.table.setHeaderVisible(true);
         this.table.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true,5,1));
-        String[] headers=new String[]{"","IP地址","端口号","用户名"};
+        this.table.setTouchEnabled(true);
+        String[] headers=new String[]{"选择","IP地址","端口号","用户名"};
         for(String header:headers)
         {
             TableColumn tableColumn=new TableColumn(this.table,SWT.NONE);
             tableColumn.setText(header);
-            tableColumn.setMoveable(true);
             tableColumn.pack();
         }
         //
@@ -108,6 +107,23 @@ public class ConnectionListWindow extends ApplicationWindow {
             item.setText(new String[]{"",connection.getHost(),connection.getPort(),connection.getUser()});
         }
         //
+        this.table.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent selectionEvent) {
+                LOGGER.info("the cell is selection");
+                Table table= (Table) selectionEvent.getSource();
+                int count=table.getItemCount();
+                for(int i=0;i<count;i++)
+                {
+                    table.getItem(i).setText(0,"");
+                }
+                //
+                TableItem tableItem = table.getSelection()[0];
+                tableItem.setText(0,">");
+            }
+        });
+        //
+        this.table.pack();
     }
 
     public void createButtons(Composite parent)

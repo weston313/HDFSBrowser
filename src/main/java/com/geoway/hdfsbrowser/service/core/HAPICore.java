@@ -244,4 +244,36 @@ public class HAPICore implements HDFSCore{
         FileStatus[] fileStatuses=fileSystem.listStatus(url);
         return fileStatuses;
     }
+
+    public FileStatus[] listDirectories(String path) throws  Exception
+    {
+        LOGGER.info("load path "+path);
+        if(path==null || path.isEmpty())
+        {
+            return null;
+        }
+        Path url=new Path(path);
+        if(!fileSystem.exists(url))
+        {
+            throw  new PathNotFoundException("the path "+path+" in hdfs is not exited");
+        }
+        FileStatus[] fileStatuses=this.fileSystem.listStatus(url, new PathFilter() {
+
+            @Override
+            public boolean accept(Path path) {
+                try {
+                    FileStatus fileStatus=fileSystem.getFileStatus(path);
+                    if(!fileStatus.isDirectory())
+                    {
+                        return false;
+                    }
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+        });
+        return fileStatuses;
+    }
 }
