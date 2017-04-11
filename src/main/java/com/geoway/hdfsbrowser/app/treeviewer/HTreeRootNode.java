@@ -1,5 +1,6 @@
-package com.geoway.hdfsbrowser.app.tree;
+package com.geoway.hdfsbrowser.app.treeviewer;
 
+import com.geoway.hdfsbrowser.app.config.AppConfiguration;
 import org.apache.log4j.Logger;
 
 /**
@@ -29,7 +30,7 @@ public class HTreeRootNode extends HTreeNode {
     private HTreeRootNode()
     {
         this.name="我的电脑";
-        this.path="/";
+        this.path= AppConfiguration.GetAppConfiguration().getHDFSUri()+"/";
         this.parent=null;
     }
 }

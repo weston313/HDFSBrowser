@@ -86,7 +86,6 @@ public class HAPICore implements HDFSCore{
         if(path==null || path.isEmpty())
         {
             return;
-
         }
         //
         fileSystem.delete(new Path(path),false);

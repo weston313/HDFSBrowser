@@ -1,6 +1,7 @@
 package com.geoway.hdfsbrowser.util;
 
 import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.Path;
 import org.apache.log4j.Logger;
 
 /**
@@ -42,5 +43,10 @@ public class FileUtils {
                     return TYPE_NONE;
             }
         }
+    }
+
+    public static String[] getPathSegment(String name)
+    {
+        return null;
     }
 }

@@ -1,15 +1,17 @@
 package com.geoway.hdfsbrowser.app.table;
 
+import com.geoway.hdfsbrowser.app.treeviewer.HTreeNode;
+import org.apache.log4j.Logger;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
-
-import java.lang.reflect.Field;
 
 /**
  * Created by wozipa on 2017/4/8.
  */
 public class HTableLabelProvider implements ITableLabelProvider {
+
+    private static final Logger LOGGER=Logger.getLogger(HTableLabelProvider.class);
 
     @Override
     public Image getColumnImage(Object o, int i) {
@@ -18,7 +20,8 @@ public class HTableLabelProvider implements ITableLabelProvider {
 
     @Override
     public String getColumnText(Object o, int i) {
-        HFile file= (HFile) o;
+        LOGGER.info("get the column text of the table");
+        HTreeNode file = (HTreeNode) o;
         switch (i)
         {
             case HTableViewer.NAME_ID:

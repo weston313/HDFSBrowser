@@ -63,6 +63,11 @@ public class AppConfiguration {
         return config.get(HDFS_USER);
     }
 
+    public String getHDFSUri()
+    {
+        return "hdfs://"+this.getHdfsHost()+":"+this.getHdfsPort();
+    }
+
     public void clear()
     {
         config.clear();

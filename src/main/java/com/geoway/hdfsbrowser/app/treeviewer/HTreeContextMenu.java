@@ -1,12 +1,12 @@
-package com.geoway.hdfsbrowser.app.tree;
+package com.geoway.hdfsbrowser.app.treeviewer;
 
-import com.geoway.hdfsbrowser.app.action.operator.Mkdir;
+import com.geoway.hdfsbrowser.app.HDFSBrowserWindow;
+import com.geoway.hdfsbrowser.app.treeviewer.action.Mkdir;
+import com.geoway.hdfsbrowser.service.core.impl.HDFSCore;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Menu;
 
 /**
  * Created by USER on 2017/4/1.
@@ -34,12 +34,14 @@ public class HTreeContextMenu  extends MenuManager{
 
     private HTreeViewer treeViewer=null;
     private Mkdir mkdir;
+    private HDFSCore hdfsCore=null;
 
     public HTreeContextMenu(HTreeViewer treeViewer)
     {
         super();
         this.treeViewer=treeViewer;
-        mkdir=new Mkdir();
+        this.hdfsCore= HDFSBrowserWindow.GetApp().getHdfsCore();
+        mkdir=new Mkdir(treeViewer,hdfsCore);
         this.setRemoveAllWhenShown(true);
         this.addMenuListener(new HTreeMenuListen());
     }

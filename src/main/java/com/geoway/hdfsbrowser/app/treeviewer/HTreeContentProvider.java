@@ -1,8 +1,6 @@
-package com.geoway.hdfsbrowser.app.tree;
+package com.geoway.hdfsbrowser.app.treeviewer;
 
-import com.geoway.hdfsbrowser.service.core.HDFSCoreFactory;
 import com.geoway.hdfsbrowser.service.core.impl.HDFSCore;
-import com.sun.xml.internal.ws.api.addressing.AddressingVersion;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -26,6 +24,7 @@ public class HTreeContentProvider implements ITreeContentProvider {
     }
 
     public Object[] getChildren(Object o) {
+        LOGGER.info("get the children from hdfs");
         HTreeNode parent=(HTreeNode)o;
         String path=parent.getPath();
         try {
@@ -73,6 +72,5 @@ public class HTreeContentProvider implements ITreeContentProvider {
     }
 
     public void inputChanged(Viewer viewer, Object o, Object o1) {
-
     }
 }

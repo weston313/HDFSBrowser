@@ -1,5 +1,9 @@
 package com.geoway.hdfsbrowser.app.table;
 
+import com.geoway.hdfsbrowser.util.FileUtils;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.FileUtil;
 import org.apache.log4j.Logger;
 
 /**
@@ -57,5 +61,14 @@ public class HFile {
     public String[] getItems()
     {
         return new  String[]{this.name,this.time,this.type,this.size};
+    }
+
+    public static String[] filestatusToItem(FileStatus fileStatus)
+    {
+        String name=fileStatus.getPath().getName();
+        String time= fileStatus.getAccessTime()+"";
+        String type= FileUtils.GetFileType(fileStatus);
+        String size=fileStatus.getLen()==0?"":fileStatus.getLen()+"";
+        return new String[]{name,time,type,size};
     }
 }

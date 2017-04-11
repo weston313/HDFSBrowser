@@ -1,4 +1,4 @@
-package com.geoway.hdfsbrowser.app.tree;
+package com.geoway.hdfsbrowser.app.treeviewer;
 
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.graphics.Image;
@@ -21,7 +21,6 @@ public class HTreeLabelProvider implements ILabelProvider {
 
     @Override
     public void addListener(ILabelProviderListener iLabelProviderListener) {
-
     }
 
     @Override

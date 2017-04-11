@@ -3,9 +3,8 @@ package com.geoway.hdfsbrowser.app;
 import com.geoway.hdfsbrowser.app.action.menu.*;
 import com.geoway.hdfsbrowser.app.action.operator.*;
 import com.geoway.hdfsbrowser.app.config.AppConfiguration;
-import com.geoway.hdfsbrowser.app.table.HTable;
 import com.geoway.hdfsbrowser.app.table.HTableViewer;
-import com.geoway.hdfsbrowser.app.tree.*;
+import com.geoway.hdfsbrowser.app.treeviewer.*;
 import com.geoway.hdfsbrowser.service.container.ConnectionContainer;
 import com.geoway.hdfsbrowser.service.core.HAPICore;
 import com.geoway.hdfsbrowser.service.core.HDFSCoreFactory;
@@ -15,10 +14,8 @@ import org.apache.log4j.Logger;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -52,7 +49,7 @@ public class HDFSBrowserWindow extends ApplicationWindow {
     //
     private boolean connected=false;
     private HDFSCore hdfsCore;
-    private TreeViewer hdfsTree;
+    private HTreeViewer hdfsTree;
     private HTableViewer table;
 
 
@@ -73,6 +70,11 @@ public class HDFSBrowserWindow extends ApplicationWindow {
     public HTableViewer getTable()
     {
         return table;
+    }
+
+    public HTreeViewer getTree()
+    {
+        return hdfsTree;
     }
 
     @Override
@@ -253,7 +255,8 @@ public class HDFSBrowserWindow extends ApplicationWindow {
     public void createLeftContent()
     {
         LOGGER.info(this.left.getSize().toString());
-        this.hdfsTree=new HTreeViewer(this.left,SWT.NONE,this.hdfsCore);
+        this.hdfsTree=new HTreeViewer(this.left,SWT.H_SCROLL|SWT.V_SCROLL|SWT.MULTI|SWT.FULL_SELECTION,this.hdfsCore);
+        this.hdfsTree.setExpandedElements(new HTreeNode[]{HTreeRootNode.GetRootNode()});
     }
 
     public void createRightContent()
