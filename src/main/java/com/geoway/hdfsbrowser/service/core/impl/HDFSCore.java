@@ -1,5 +1,6 @@
 package com.geoway.hdfsbrowser.service.core.impl;
 
+import org.apache.commons.math3.analysis.function.Exp;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.permission.FsAction;
 
@@ -48,7 +49,7 @@ public interface HDFSCore {
      * create one empty file
      * @param path
      */
-    public void createFile(String path) throws Exception;
+    public OutputStream createFile(String path) throws Exception;
 
     /**
      * remove the path
@@ -90,4 +91,11 @@ public interface HDFSCore {
     public FileStatus[] list(String path) throws Exception;
 
     public FileStatus[] listDirectories(String path)throws Exception;
+
+    public FileStatus infor(String path) throws Exception;
+
+    public void copy(String src,String dst) throws Exception;
+
+    public InputStream open(String path) throws Exception;
+
 }

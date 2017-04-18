@@ -1,6 +1,8 @@
 package com.geoway.hdfsbrowser.service.container;
 
+import com.geoway.hdfsbrowser.app.view.HNode;
 import org.apache.log4j.Logger;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class PathsContainer {
         return CONTAINER;
     }
 
-    private List<TreeItem> container=null;
+    private List<HNode> container=null;
     private int index;
 
     private PathsContainer()
@@ -39,13 +41,21 @@ public class PathsContainer {
         index=0;
     }
 
-    public synchronized void add(TreeItem node)
+    /**
+     * create the index of the file
+     * @param node
+     */
+    public synchronized void add(HNode node)
     {
         container.add(node);
         index=container.size()-1;
     }
 
-    public synchronized TreeItem back()
+    /**
+     * when click the back buttion to get the hnode from the paths container
+     * @return
+     */
+    public synchronized HNode back()
     {
         index--;
         if(index<0)
@@ -55,7 +65,11 @@ public class PathsContainer {
         return container.get(index);
     }
 
-    public synchronized TreeItem prev()
+    /**
+     * when click the prve buttion to get the hnode from the index
+     * @return
+     */
+    public synchronized HNode prev()
     {
         index++;
         if(index>=container.size())
@@ -63,10 +77,5 @@ public class PathsContainer {
             index=container.size()-1;
         }
         return container.get(index);
-    }
-
-    public void close()
-    {
-        this.container.clear();
     }
 }

@@ -2,10 +2,13 @@ package com.geoway.hdfsbrowser.app;
 
 import com.geoway.hdfsbrowser.app.action.menu.*;
 import com.geoway.hdfsbrowser.app.action.operator.*;
+import com.geoway.hdfsbrowser.app.action.operator.List;
 import com.geoway.hdfsbrowser.app.config.AppConfiguration;
-import com.geoway.hdfsbrowser.app.table.HTableViewer;
-import com.geoway.hdfsbrowser.app.treeviewer.*;
+import com.geoway.hdfsbrowser.app.view.HNode;
+import com.geoway.hdfsbrowser.app.view.table.HTableViewer;
+import com.geoway.hdfsbrowser.app.view.tree.*;
 import com.geoway.hdfsbrowser.service.container.ConnectionContainer;
+import com.geoway.hdfsbrowser.service.container.PathsContainer;
 import com.geoway.hdfsbrowser.service.core.HAPICore;
 import com.geoway.hdfsbrowser.service.core.HDFSCoreFactory;
 import com.geoway.hdfsbrowser.service.core.impl.HDFSCore;
@@ -129,8 +132,9 @@ public class HDFSBrowserWindow extends ApplicationWindow {
        toolBarManager.add(new Paste());
        toolBarManager.add(new Property());
        toolBarManager.add(new HBSeparator());
-       toolBarManager.add(new Download());
-       toolBarManager.add(new Upload());
+        toolBarManager.add(new Upload());
+        toolBarManager.add(new Download());
+        toolBarManager.add(new List());
        toolBarManager.add(new HBSeparator());
        toolBarManager.add(new Search());
        return toolBarManager;
@@ -256,7 +260,7 @@ public class HDFSBrowserWindow extends ApplicationWindow {
     {
         LOGGER.info(this.left.getSize().toString());
         this.hdfsTree=new HTreeViewer(this.left,SWT.H_SCROLL|SWT.V_SCROLL|SWT.MULTI|SWT.FULL_SELECTION,this.hdfsCore);
-        this.hdfsTree.setExpandedElements(new HTreeNode[]{HTreeRootNode.GetRootNode()});
+//        PathsContainer.getContainer().add(HTreeRootNode.GetRootNode());
     }
 
     public void createRightContent()

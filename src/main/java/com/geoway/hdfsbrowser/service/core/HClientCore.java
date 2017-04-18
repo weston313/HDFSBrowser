@@ -37,8 +37,8 @@ public class HClientCore implements HDFSCore{
     }
 
     @Override
-    public void createFile(String path) throws Exception {
-
+    public OutputStream createFile(String path) throws Exception {
+        return null;
     }
 
     @Override
@@ -79,5 +79,20 @@ public class HClientCore implements HDFSCore{
     @Override
     public FileStatus[] listDirectories(String path) throws Exception {
         return new FileStatus[0];
+    }
+
+    @Override
+    public FileStatus infor(String path) throws Exception {
+        return null;
+    }
+
+    @Override
+    public void copy(String src, String dst) throws Exception {
+
+    }
+
+    @Override
+    public InputStream open(String path) throws Exception {
+        return null;
     }
 }

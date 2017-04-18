@@ -1,12 +1,11 @@
 package com.geoway.hdfsbrowser.service.container;
 
 import com.geoway.hdfsbrowser.app.config.AppConfiguration;
-import com.geoway.hdfsbrowser.app.treeviewer.HTreeNode;
-import org.apache.hadoop.fs.Path;
+import com.geoway.hdfsbrowser.app.view.HNode;
+import com.geoway.hdfsbrowser.util.FileUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.swt.widgets.TreeItem;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,6 +58,11 @@ public class IndexContainer{
             }
             hdfsPath=prefix+path;
         }
+        else
+        {
+            hdfsPath=path;
+        }
+        hdfsPath=FileUtils.CorrectPath(hdfsPath);
         //
         if(container.containsKey(hdfsPath))
         {
@@ -71,23 +75,23 @@ public class IndexContainer{
     {
         if(item==null)
         {
+            LOGGER.info("item is null");
             return;
         }
-        HTreeNode node= (HTreeNode) item.getData();
+        HNode node= (HNode) item.getData();
         if(node==null)
         {
+            LOGGER.info("the node is null");
             return;
         }
         String key=node.getPath();
         if(key==null || key.isEmpty())
         {
+            LOGGER.info("the key is null");
             return;
         }
         //make sure that the key is not end with char /
-        while(key.endsWith("/"))
-        {
-            key=key.substring(0,key.length()-2);
-        }
+        key= FileUtils.CorrectPath(key);
         container.put(key,item);
     }
 

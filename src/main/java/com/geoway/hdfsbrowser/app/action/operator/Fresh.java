@@ -1,5 +1,10 @@
 package com.geoway.hdfsbrowser.app.action.operator;
 
+import com.geoway.hdfsbrowser.app.HDFSBrowserWindow;
+import com.geoway.hdfsbrowser.app.dialog.ConnectionError;
+import com.geoway.hdfsbrowser.app.view.ViewerMutual;
+import com.geoway.hdfsbrowser.app.view.table.HTableViewer;
+import org.apache.log4j.Logger;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
 
@@ -8,6 +13,10 @@ import org.eclipse.swt.SWT;
  */
 public class Fresh extends Action {
 
+    private static final Logger LOGGER=Logger.getLogger(Fresh.class);
+
+    private ViewerMutual proxy=null;
+
     public Fresh()
     {
         super();
@@ -15,10 +24,17 @@ public class Fresh extends Action {
         this.setEnabled(true);
         this.setAccelerator(SWT.F5);
 //        this.setImageDescriptor();
+        this.proxy=ViewerMutual.getMutual();
     }
 
     @Override
     public void run() {
-        super.run();
+        if(!HDFSBrowserWindow.GetApp().isConnected())
+        {
+            ConnectionError.getERROR();
+            return;
+        }
+        //
+        
     }
 }

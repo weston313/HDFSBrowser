@@ -100,13 +100,14 @@ public class HAPICore implements HDFSCore{
         fileSystem.delete(new Path(path),true);
     }
 
-    public void createFile(String path) throws Exception {
+    public OutputStream createFile(String path) throws Exception {
         if(path==null || path.isEmpty())
         {
-            return;
+            return null;
         }
         //
-        fileSystem.create(new Path(path));
+        FSDataOutputStream outputStream=fileSystem.create(new Path(path));
+        return outputStream;
     }
 
     public void remove(String src, String dest) throws Exception {
@@ -275,4 +276,41 @@ public class HAPICore implements HDFSCore{
         });
         return fileStatuses;
     }
+
+    @Override
+    public FileStatus infor(String path) throws Exception {
+        if(path==null || path.isEmpty())
+        {
+            return null;
+        }
+        if(!fileSystem.exists(new Path(path)))
+        {
+            throw new PathNotFoundException("the path "+path+" is not existed");
+        }
+        FileStatus fileStatus=fileSystem.getFileStatus(new Path(path));
+        return fileStatus;
+    }
+
+    @Override
+    public void copy(String src, String dst) throws Exception {
+
+    }
+
+    @Override
+    public InputStream open(String path) throws Exception {
+        if(path==null || path.isEmpty())
+        {
+            return null;
+        }
+        Path p=new Path(path);
+
+        if(!fileSystem.exists(p))
+        {
+            return null;
+        }
+        FSDataInputStream reader=fileSystem.open(p);
+        return reader;
+    }
+
+
 }
